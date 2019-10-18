@@ -71,7 +71,8 @@ class GDataDbHelper(context: Context) :
     }
 }
 
-
+/*
+//Try Recycler View Another Time
 class MyAdapter(private val myDataset: Array<String?>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     // Provide a reference to the views for each data item
@@ -79,6 +80,7 @@ class MyAdapter(private val myDataset: Array<String?>) : RecyclerView.Adapter<My
     // you provide access to all the views for a data item in a view holder.
     // Each data item is just a string in this case that is shown in a TextView.
     class MyViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
+
 
 
     // Create new views (invoked by the layout manager)
@@ -101,13 +103,17 @@ class MyAdapter(private val myDataset: Array<String?>) : RecyclerView.Adapter<My
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = myDataset.size
 }
+*/
 
 
 
 class MainActivity : AppCompatActivity() {
+    //Try Recycler View Another Time
+    /*
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+     */
     val prefsFilename = "com.jenj.gas.prefs"
 
 
@@ -135,7 +141,7 @@ class MainActivity : AppCompatActivity() {
         val sortOrder = "${BaseColumns._ID} ASC"
 
 
-        //Add data
+        //Button to Add data
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Data Added", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
@@ -153,7 +159,7 @@ class MainActivity : AppCompatActivity() {
             val newRowId = db?.insert(GDataContract.GDataEntry.TABLE_NAME, null, values)
         }
 
-        //Print data to console
+        //Button to Print data to console
         printValues.setOnClickListener { view ->
             val cursor = db.query(
                 GDataContract.GDataEntry.TABLE_NAME,   // The table to query
@@ -233,7 +239,10 @@ class MainActivity : AppCompatActivity() {
             fab.hide()
             vf.setDisplayedChild(1)
 
-            //val displayData = createDisplayData()
+            val displayData = createDisplayData()
+
+            //Try Recycler View Another Time
+            /*
             val displayDataArray = displayDataToArray()
 
             viewManager = LinearLayoutManager(this)
@@ -249,26 +258,29 @@ class MainActivity : AppCompatActivity() {
 
                 // specify an viewAdapter (see also next example)
                 adapter = viewAdapter
+
             }
 
-//            for ((k, v) in displayData) {
-//                val cardView = CardView(this)
-//
-//                val textView = TextView(this)
-//                textView.text = "ID: $k Dist: ${v.first} Gas: ${v.second}"
-//                textView.textSize = 24.toFloat()
-//
-//                cardView.addView(textView)
-//                displayLinearLayout.addView(cardView)
-//            }
+             */
 
-//            val textArray = arrayOf("One", "Two", "Three", "Four")
-//            for (i in textArray.indices) {
-//                val textView = TextView(this)
-//                textView.text = textArray[i]
-//                textView.textSize = 24.toFloat()
-//                displayLinearLayout.addView(textView)
-//            }
+            for ((k, v) in displayData) {
+                val cardView = CardView(this)
+
+                val textView = TextView(this)
+                textView.text = "ID: $k Dist: ${v.first} Gas: ${v.second}"
+                textView.textSize = 24.toFloat()
+
+                cardView.addView(textView)
+                displayLinearLayout.addView(cardView)
+            }
+
+            val textArray = arrayOf("One", "Two", "Three", "Four")
+            for (i in textArray.indices) {
+                val textView = TextView(this)
+                textView.text = textArray[i]
+                textView.textSize = 24.toFloat()
+                displayLinearLayout.addView(textView)
+            }
 
         }
 
