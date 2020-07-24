@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     //Store entries [ [dist, gas], [dist, gas], ... ]
     var dataEntries: MutableList<DoubleArray> = mutableListOf<DoubleArray>()
+        get() = field
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,4 +96,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
 }
