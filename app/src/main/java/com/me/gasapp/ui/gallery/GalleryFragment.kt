@@ -1,6 +1,5 @@
 package com.me.gasapp.ui.gallery
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,24 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.me.gasapp.R
-
 
 class GalleryFragment : Fragment() {
 
-    interface GalleryInterface{
-        fun onButtonClick()
-    }
-
     private lateinit var galleryViewModel: GalleryViewModel
 
-    private lateinit var fragmentInterface: GalleryInterface
-
-    override fun onAttach(context: Context){
-        super.onAttach(context)
-        fragmentInterface = context as GalleryInterface
-    }
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -39,8 +26,6 @@ class GalleryFragment : Fragment() {
         galleryViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
-
-
         return root
     }
 }
