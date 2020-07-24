@@ -14,6 +14,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.ui.*
+import androidx.recyclerview.widget.RecyclerView
 
 //https://developer.android.com/guide/navigation/navigation-ui
 //Navigation drawer and stuff
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        val recyclerView: RecyclerView = findViewById(R.id.recycler)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
