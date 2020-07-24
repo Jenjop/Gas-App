@@ -36,8 +36,8 @@
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.me.gasapp.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_entry"
+        android:name="com.me.gasapp.ui.entry.EntryFragment"
+        android:label="@string/menu_entry"
+        tools:layout="@layout/fragment_entry" />
 </navigation>

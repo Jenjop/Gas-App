@@ -1,4 +1,4 @@
-package com.me.gasapp.ui.slideshow
+package com.me.gasapp.ui.entry
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.me.gasapp.R
 
-class SlideshowFragment : Fragment() {
+class EntryFragment : Fragment() {
 
-    private lateinit var slideshowViewModel: SlideshowViewModel
+    private lateinit var entryViewModel: EntryViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_slideshow, container, false)
-        val textView: TextView = root.findViewById(R.id.text_slideshow)
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
+        entryViewModel =
+                ViewModelProviders.of(this).get(EntryViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_entry, container, false)
+        val textView: TextView = root.findViewById(R.id.text_entry)
+        entryViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
