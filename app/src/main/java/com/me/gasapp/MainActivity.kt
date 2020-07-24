@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    //Store entries [ [dist, gas], [dist, gas], ... ]
+    var dataEntries: MutableList<DoubleArray> = mutableListOf<DoubleArray>()
+
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +40,10 @@ class MainActivity : AppCompatActivity() {
             val distance: EditText? = findViewById(R.id.input_distance)
             val gas: EditText? = findViewById(R.id.input_gas)
             Log.d("FAB","Dist: " + distance?.text.toString() + ", Gas: " + gas?.text.toString())
+            if (distance != null && gas != null){
+                dataEntries.add(doubleArrayOf(distance.text.toString().toDouble(), gas.text.toString().toDouble()))
+            }
+
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
