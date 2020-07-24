@@ -77,7 +77,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        val recyclerView: RecyclerView = findViewById(R.id.recycler)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
