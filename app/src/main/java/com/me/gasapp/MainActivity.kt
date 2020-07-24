@@ -13,18 +13,22 @@ import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.ui.*
-import androidx.recyclerview.widget.RecyclerView
 
 //https://developer.android.com/guide/navigation/navigation-ui
 //Navigation drawer and stuff
+
+typealias Data = DoubleArray
+typealias DataList = MutableList<Data>
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     //Store entries [ [dist, gas], [dist, gas], ... ]
-    var dataEntries: MutableList<DoubleArray> = mutableListOf<DoubleArray>()
+    var dataEntries: DataList = mutableListOf()
+    private lateinit var model: SharedViewModel
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +36,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        //Get Shared View Model
+        model =
+            ViewModelProviders.of(this).get(SharedViewModel::class.java)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -66,6 +74,7 @@ class MainActivity : AppCompatActivity() {
                             gas.text.toString().toDouble()
                         )
                     )
+                    model.data.postValue(dataEntries)
                 }
             } else {
                 fab.visibility = View.GONE
@@ -77,7 +86,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-        val recyclerView: RecyclerView = findViewById(R.id.recycler)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -96,4 +104,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
 }
