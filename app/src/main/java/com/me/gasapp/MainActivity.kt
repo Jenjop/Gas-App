@@ -33,33 +33,47 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Entry Added", Snackbar.LENGTH_LONG).show()
-//                    .setAction("Action", null).show()
-            val distance: EditText? = findViewById(R.id.input_distance)
-            val gas: EditText? = findViewById(R.id.input_gas)
-            Log.d("FAB","Dist: " + distance?.text.toString() + ", Gas: " + gas?.text.toString())
-            if (distance != null && gas != null){
-                dataEntries.add(doubleArrayOf(distance.text.toString().toDouble(), gas.text.toString().toDouble()))
-            }
-
-        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home, R.id.nav_history, R.id.nav_entry), drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_history, R.id.nav_entry
+            ), drawerLayout
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
         //When changing fragment from nav drawer
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id == R.id.nav_entry){
+            if (destination.id == R.id.nav_entry) {
                 fab.visibility = View.VISIBLE
+                fab.setOnClickListener { view ->
+                    Snackbar.make(view, "Entry Added", Snackbar.LENGTH_LONG).show()
+
+                    val distance: EditText = findViewById(R.id.input_distance)
+                    val gas: EditText = findViewById(R.id.input_gas)
+                    Log.d(
+                        "FAB",
+                        "Dist: " + distance.text.toString() + ", Gas: " + gas.text.toString()
+                    )
+                    dataEntries.add(
+                        doubleArrayOf(
+                            distance.text.toString().toDouble(),
+                            gas.text.toString().toDouble()
+                        )
+                    )
+                }
             } else {
                 fab.visibility = View.GONE
+                fab.setOnClickListener() { view ->
+                    Snackbar.make(view, "Changing View", Snackbar.LENGTH_LONG).show()
+
+                    //TODO:
+                    //Clicking fab moves to entry fragment
+                }
             }
         }
     }
