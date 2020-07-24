@@ -1,14 +1,16 @@
 package com.me.gasapp.ui.history
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.me.gasapp.DataList
 import com.me.gasapp.R
 
 
 class RecyclerAdapter(
-    private var dataEntries: MutableList<DoubleArray>
+    private var dataEntries: DataList
 ) :
     RecyclerView.Adapter<RecyclerViewHolder>() {
 
@@ -23,7 +25,9 @@ class RecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        holder.view.text = dataEntries[position][0].toString() + dataEntries[position][1].toString()
+        if (dataEntries.isNotEmpty())
+            holder.view.text = "Dist: " + dataEntries[position][0].toString() + " Gas: " + dataEntries[position][1].toString()
+//        Log.d("Adapter", "Update Text")
 //        holder.txtViewTitle.setText(dataEntries[position)
 
     }
