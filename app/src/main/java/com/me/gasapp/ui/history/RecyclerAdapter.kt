@@ -1,6 +1,5 @@
 package com.me.gasapp.ui.history
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +24,12 @@ class RecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        if (dataEntries.isNotEmpty())
-            holder.view.text = "Dist: " + dataEntries[position][0].toString() + " Gas: " + dataEntries[position][1].toString()
+        if (dataEntries.isNotEmpty()) {
+//            holder.view0.text = "Dist: " + dataEntries[position][0].toString() + " Gas: " + dataEntries[position][1].toString()
+            holder.view0.text = "Date: "
+            holder.view1.text = "Dist: " + dataEntries[position][0].toString()
+            holder.view2.text = "Gas: " + dataEntries[position][1].toString()
+        }
 //        Log.d("Adapter", "Update Text")
 //        holder.txtViewTitle.setText(dataEntries[position)
 

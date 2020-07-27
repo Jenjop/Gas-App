@@ -30,12 +30,18 @@ class MainActivity : AppCompatActivity() {
     var dataEntries: DataList = mutableListOf()
     private lateinit var model: SharedViewModel
 
+    private lateinit var dbManager: DBManager
+
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        //DB
+        dbManager = DBManager(this)
+        dbManager.open();
 
         //Get Shared View Model
         model =
@@ -68,13 +74,20 @@ class MainActivity : AppCompatActivity() {
                         "FAB",
                         "Dist: " + distance.text.toString() + ", Gas: " + gas.text.toString()
                     )
+                    val dist_val = distance.text.toString().toDouble()
+                    val gas_val = gas.text.toString().toDouble()
                     dataEntries.add(
                         doubleArrayOf(
-                            distance.text.toString().toDouble(),
-                            gas.text.toString().toDouble()
+                            dist_val,
+                            gas_val
                         )
                     )
                     model.data.postValue(dataEntries)
+                    //DB
+                    val timestamp = System.currentTimeMillis() / 1000
+//                    val timestamp = Calendar.getInstance().getTime() / 1000
+                    dbManager.insert(timestamp, dist_val, gas_val)
+
                 }
             } else {
                 fab.visibility = View.GONE
