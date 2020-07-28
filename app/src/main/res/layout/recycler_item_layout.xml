@@ -15,20 +15,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        tools:text="Placeholder Text" />
+        android:layout_marginHorizontal="10dp"
+        android:textSize="24dp"
+        tools:text="Date Placeholder" />
 
     <TextView
         android:id="@+id/item_text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        tools:text="Placeholder Text" />
+        android:layout_marginHorizontal="10dp"
+        android:textSize="24dp"
+        tools:text="Dist P" />
 
     <TextView
         android:id="@+id/item_text2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        tools:text="Placeholder Text" />
+        android:layout_marginHorizontal="10dp"
+        android:textSize="24dp"
+        tools:text="Gas P" />
 
 </LinearLayout>

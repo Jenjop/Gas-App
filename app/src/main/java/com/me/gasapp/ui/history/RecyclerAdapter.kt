@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.me.gasapp.DataList
 import com.me.gasapp.R
+import java.time.ZoneId
+import java.util.*
 
 
 class RecyclerAdapter(
@@ -25,10 +27,12 @@ class RecyclerAdapter(
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         if (dataEntries.isNotEmpty()) {
-//            holder.view0.text = "Dist: " + dataEntries[position][0].toString() + " Gas: " + dataEntries[position][1].toString()
-            holder.view0.text = "Date: "
-            holder.view1.text = "Dist: " + dataEntries[position][0].toString()
-            holder.view2.text = "Gas: " + dataEntries[position][1].toString()
+            holder.view0.text = java.time.format.DateTimeFormatter.ofPattern("E, d MMMM yyyy kk:mm:ss")
+//            holder.view0.text = "Date: " + java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME
+                .withLocale(Locale.US).withZone(ZoneId.of("PST"))
+                .format(java.time.Instant.ofEpochSecond(dataEntries[position][0].toLong())) + ": "
+            holder.view1.text = "Dist: " + dataEntries[position][1].toString()
+            holder.view2.text = "Gas: " + dataEntries[position][2].toString()
         }
 //        Log.d("Adapter", "Update Text")
 //        holder.txtViewTitle.setText(dataEntries[position)

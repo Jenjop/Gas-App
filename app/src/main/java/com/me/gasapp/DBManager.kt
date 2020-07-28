@@ -7,7 +7,7 @@ import android.database.SQLException
 
 import android.database.sqlite.SQLiteDatabase
 
-
+//https://www.journaldev.com/9438/android-sqlite-database-example-tutorial
 class DBManager(c: Context) {
     private var dbHelper: DatabaseHelper? = null
     private val context: Context = c
@@ -43,9 +43,7 @@ class DBManager(c: Context) {
             arrayOf(DatabaseHelper._ID, DatabaseHelper.DATE, DatabaseHelper.DIST, DatabaseHelper.GAS)
         val cursor: Cursor? =
             database!!.query(DatabaseHelper.TABLE_NAME, columns, null, null, null, null, null)
-        if (cursor != null) {
-            cursor.moveToFirst()
-        }
+        cursor?.moveToFirst()
         return cursor
     }
 

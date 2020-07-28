@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-
+//https://www.journaldev.com/9438/android-sqlite-database-example-tutorial
 class DatabaseHelper(context: Context?) :
     SQLiteOpenHelper(
         context,
@@ -37,10 +37,10 @@ class DatabaseHelper(context: Context?) :
 
         const val DB_VERSION: Int = 1
 
-        private val CREATE_TABLE: String = "create table $TABLE_NAME" +
+        private const val CREATE_TABLE: String = "create table $TABLE_NAME" +
                 "($_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "$DATE INTEGER NOT NULL, " +
-                "$DIST REAL NOT NULL" +
+                "$DIST REAL NOT NULL, " +
                 "$GAS REAL NOT NULL" +
                 ");"
     }
