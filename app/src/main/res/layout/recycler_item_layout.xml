@@ -80,6 +80,7 @@
             android:gravity="center">
 
             <ImageButton
+                android:id="@+id/edit_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="#5467FF62"
@@ -94,6 +95,7 @@
             android:gravity="center">
 
             <ImageButton
+                android:id="@+id/delete_button"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="#54FF6262"
