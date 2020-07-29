@@ -1,5 +1,7 @@
 package com.me.gasapp.ui.history
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,12 +9,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.me.gasapp.DataList
 import com.me.gasapp.R
+import java.time.ZoneId
+import java.util.*
 
 
 class RecyclerAdapter(
     private var dataEntries: DataList
 ) :
     RecyclerView.Adapter<RecyclerViewHolder>() {
+
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     override fun getItemViewType(position: Int): Int {
         return R.layout.recycler_item_layout
@@ -24,9 +30,34 @@ class RecyclerAdapter(
         return RecyclerViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        if (dataEntries.isNotEmpty())
-            holder.view.text = "Dist: " + dataEntries[position][0].toString() + " Gas: " + dataEntries[position][1].toString()
+        if (dataEntries.isNotEmpty()) {
+            holder.view0.text = java.time.format.DateTimeFormatter.ofPattern("E, d MMM yyyy kk:mm:ss")
+//            holder.view0.text = "Date: " + java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME
+                .withLocale(Locale.US).withZone(ZoneId.of("PST"))
+                .format(java.time.Instant.ofEpochSecond(dataEntries[position][0].toLong()))
+            holder.view1.text = "Dist: " + dataEntries[position][1].toString()
+            holder.view2.text = "Gas: " + dataEntries[position][2].toString()
+
+//            holder.itemView.isSelected = selectedPosition == position
+            if (selectedPosition == position)
+                holder.itemView.setBackgroundColor(Color.parseColor("#AD63CFFF"))
+            else
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT)
+
+            holder.itemView.setOnClickListener(View.OnClickListener {
+//                if (position == RecyclerView.NO_POSITION)
+//                    return@OnClickListener
+//                notifyItemChanged(selectedPosition)
+//                selectedPosition = position
+//                notifyItemChanged(selectedPosition)
+
+                selectedPosition = position
+                notifyDataSetChanged()
+                Log.d("RecyclerView", "Selected: $selectedPosition")
+            })
+        }
 //        Log.d("Adapter", "Update Text")
 //        holder.txtViewTitle.setText(dataEntries[position)
 

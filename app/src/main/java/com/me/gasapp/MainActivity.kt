@@ -1,6 +1,7 @@
 package com.me.gasapp
 
 import android.annotation.SuppressLint
+import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -19,7 +20,7 @@ import androidx.navigation.ui.*
 //https://developer.android.com/guide/navigation/navigation-ui
 //Navigation drawer and stuff
 
-typealias Data = DoubleArray
+typealias Data = Array<Number>
 typealias DataList = MutableList<Data>
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +30,12 @@ class MainActivity : AppCompatActivity() {
     //Store entries [ [dist, gas], [dist, gas], ... ]
     var dataEntries: DataList = mutableListOf()
     private lateinit var model: SharedViewModel
+
+    private lateinit var dbManager: DBManager
+
+    private var date_val: Long = 0
+    private var dist_val: Double = 0.0
+    private var gas_val: Double = 0.0
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +47,25 @@ class MainActivity : AppCompatActivity() {
         //Get Shared View Model
         model =
             ViewModelProviders.of(this).get(SharedViewModel::class.java)
+
+        //DB
+        dbManager = DBManager(this)
+        dbManager.open();
+        //Retrieve entries
+        val cursor: Cursor? = dbManager.fetch()
+        while (cursor != null && !cursor.isAfterLast){
+            Log.d("SQLite", "ID: " + cursor.getString(0))
+            Log.d("SQLite", "Date: " + cursor.getString(1))
+            Log.d("SQLite", "Dist: " + cursor.getString(2))
+            Log.d("SQLite", "Gas: " + cursor.getString(3))
+            date_val = cursor.getLong(1)
+            dist_val = cursor.getDouble(2)
+            gas_val = cursor.getDouble(3)
+            dataEntries.add(arrayOf(date_val, dist_val, gas_val))
+            cursor.moveToNext()
+        }
+        model.data.postValue(dataEntries)
+
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -62,19 +88,30 @@ class MainActivity : AppCompatActivity() {
                 fab.setOnClickListener { view ->
                     Snackbar.make(view, "Entry Added", Snackbar.LENGTH_LONG).show()
 
+                    val timestamp = System.currentTimeMillis() / 1000
+//                    val timestamp = Calendar.getInstance().getTime() / 1000
+
                     val distance: EditText = findViewById(R.id.input_distance)
                     val gas: EditText = findViewById(R.id.input_gas)
                     Log.d(
                         "FAB",
                         "Dist: " + distance.text.toString() + ", Gas: " + gas.text.toString()
                     )
+                    date_val = timestamp
+                    dist_val = distance.text.toString().toDouble()
+                    gas_val = gas.text.toString().toDouble()
                     dataEntries.add(
-                        doubleArrayOf(
-                            distance.text.toString().toDouble(),
-                            gas.text.toString().toDouble()
+                        arrayOf(
+                            date_val,
+                            dist_val,
+                            gas_val
                         )
                     )
                     model.data.postValue(dataEntries)
+                    //DB
+
+                    dbManager.insert(date_val, dist_val, gas_val)
+
                 }
             } else {
                 fab.visibility = View.GONE

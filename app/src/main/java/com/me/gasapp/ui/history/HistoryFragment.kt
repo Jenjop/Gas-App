@@ -55,7 +55,7 @@ class HistoryFragment : Fragment() {
         return root
     }
 
-    fun copyDataEntries(newData: DataList) {
+    private fun copyDataEntries(newData: DataList) {
         dataEntries.clear()
         newData.forEach { dataEntries.add(it) }
     }
