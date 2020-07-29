@@ -3,63 +3,104 @@
 <!--    android:layout_height="match_parent">-->
 
 <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    android:layout_margin="8dp"
-    android:layout_marginVertical="10dp">
-
-    <View
-        android:id="@+id/center_anchor"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
-
-    <View
-        android:id="@+id/left_anchor"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true" />
-
-    <View
-        android:id="@+id/right_anchor"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true" />
-
-    <TextView
-        android:id="@+id/item_text0"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 
-        android:layout_alignStart="@id/left_anchor"
-        android:textSize="18sp"
-        tools:text="Date Placeholder" />
+        android:layout_margin="8dp"
+        android:layout_marginVertical="10dp">
 
-    <TextView
-        android:id="@+id/item_text1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <View
+            android:id="@+id/center_anchor"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
-        android:layout_alignStart="@id/center_anchor"
-        android:layout_marginStart="230dp"
-        android:textSize="18sp"
-        tools:text="Dist P"
-        />
+        <View
+            android:id="@+id/left_anchor"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
 
-    <TextView
-        android:id="@+id/item_text2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <View
+            android:id="@+id/right_anchor"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
 
-        android:layout_alignStart="@id/right_anchor"
-        android:layout_marginStart="-128dp"
-        android:textSize="18sp"
-        tools:text="Gas P" />
+        <TextView
+            android:id="@+id/item_text0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-</RelativeLayout>
+            android:layout_alignStart="@id/left_anchor"
+            android:textSize="18sp"
+            tools:text="Date Placeholder" />
+
+        <TextView
+            android:id="@+id/item_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignStart="@id/center_anchor"
+            android:layout_marginStart="0dp"
+            android:textSize="18sp"
+            tools:text="Dist P" />
+
+        <TextView
+            android:id="@+id/item_text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignStart="@id/right_anchor"
+            android:layout_marginStart="-128dp"
+            android:textSize="18sp"
+            tools:text="Gas P" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/item_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="#5467FF62"
+                android:src="@android:drawable/ic_menu_edit" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="#54FF6262"
+                android:src="@android:drawable/ic_menu_delete" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -2,6 +2,7 @@ package com.me.gasapp.ui.history
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.transition.TransitionManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -40,11 +41,17 @@ class RecyclerAdapter(
             holder.view1.text = "Dist: " + dataEntries[position][1].toString()
             holder.view2.text = "Gas: " + dataEntries[position][2].toString()
 
-//            holder.itemView.isSelected = selectedPosition == position
-            if (selectedPosition == position)
-                holder.itemView.setBackgroundColor(Color.parseColor("#AD63CFFF"))
-            else
+            holder.itemView.isSelected = selectedPosition == position
+            if (selectedPosition == position) {
+                holder.itemView.setBackgroundColor(Color.parseColor("#5462CEFF"))
+                holder.actions.visibility = View.VISIBLE
+            }
+            else {
                 holder.itemView.setBackgroundColor(Color.TRANSPARENT)
+                holder.actions.visibility = View.GONE
+            }
+//            holder.itemView.setBackgroundColor(if (selectedPosition == position) Color.parseColor("#5462CEFF") else Color.TRANSPARENT)
+//            holder.actions.visibility = if (selectedPosition == position) View.VISIBLE else View.GONE
 
             holder.itemView.setOnClickListener(View.OnClickListener {
 //                if (position == RecyclerView.NO_POSITION)
@@ -54,6 +61,7 @@ class RecyclerAdapter(
 //                notifyItemChanged(selectedPosition)
 
                 selectedPosition = position
+//                TransitionManager.beginDelayedTransition() #Need to pass in viewgroup of recycler view
                 notifyDataSetChanged()
                 Log.d("RecyclerView", "Selected: $selectedPosition")
             })
