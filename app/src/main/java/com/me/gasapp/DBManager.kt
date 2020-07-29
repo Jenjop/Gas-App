@@ -24,12 +24,6 @@ class DBManager(c: Context) {
         dbHelper!!.close()
     }
 
-//    fun insert(name: String?, desc: String?) {
-//        val contentValue = ContentValues()
-//        contentValue.put(DatabaseHelper.SUBJECT, name)
-//        contentValue.put(DatabaseHelper.DESC, desc)
-//        database!!.insert(DatabaseHelper.TABLE_NAME, null, contentValue)
-//    }
     fun insert(date: Long, dist: Double, gas: Double) {
         val contentValue = ContentValues()
         contentValue.put(DatabaseHelper.DATE, date)

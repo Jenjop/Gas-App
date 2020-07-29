@@ -1,28 +1,15 @@
 package com.me.gasapp
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-
-
+//import android.util.Log
+//import androidx.lifecycle.MutableLiveData
+//import androidx.lifecycle.ViewModel
+//
+//
+//
 //class SharedViewModel : ViewModel() {
-//    private val dataEntries: MutableLiveData<DataList> = MutableLiveData<DataList>()
+//    val data: MutableLiveData<DataList> = MutableLiveData()
 //
-////        fun select(item: DataList) {
-////        dataEntries.value = item
+////    init {
+////        Log.d("SVM","SVM Created")
 ////    }
-//
-//    fun getDataEntries(): DataList? {
-//        return dataEntries.value
-//    }
 //}
-
-
-class SharedViewModel : ViewModel() {
-    val data: MutableLiveData<DataList> = MutableLiveData()
-
-//    init {
-//        Log.d("SVM","SVM Created")
-//    }
-}

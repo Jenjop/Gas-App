@@ -29,10 +29,12 @@ class MainActivity : AppCompatActivity() {
 
     //Store entries [ [dist, gas], [dist, gas], ... ]
     var dataEntries: DataList = mutableListOf()
-    private lateinit var model: SharedViewModel
+//    private lateinit var model: SharedViewModel
 
     private lateinit var dbManager: DBManager
 
+    private var _id: Long = -1
+//    private var id: Int = -1
     private var date_val: Long = 0
     private var dist_val: Double = 0.0
     private var gas_val: Double = 0.0
@@ -45,26 +47,28 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         //Get Shared View Model
-        model =
-            ViewModelProviders.of(this).get(SharedViewModel::class.java)
+//        model =
+//            ViewModelProviders.of(this).get(SharedViewModel::class.java)
 
         //DB
         dbManager = DBManager(this)
         dbManager.open();
         //Retrieve entries
         val cursor: Cursor? = dbManager.fetch()
+        //cursor
+        //  0: id
+        //  1: date (epoch)
+        //  2: Dist
+        //  3: Gas
         while (cursor != null && !cursor.isAfterLast){
-            Log.d("SQLite", "ID: " + cursor.getString(0))
-            Log.d("SQLite", "Date: " + cursor.getString(1))
-            Log.d("SQLite", "Dist: " + cursor.getString(2))
-            Log.d("SQLite", "Gas: " + cursor.getString(3))
+            _id = cursor.getLong(0)
             date_val = cursor.getLong(1)
             dist_val = cursor.getDouble(2)
             gas_val = cursor.getDouble(3)
-            dataEntries.add(arrayOf(date_val, dist_val, gas_val))
+            dataEntries.add(arrayOf(_id, date_val, dist_val, gas_val))
             cursor.moveToNext()
         }
-        model.data.postValue(dataEntries)
+//        model.data.postValue(dataEntries)
 
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
@@ -85,11 +89,11 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.nav_entry) {
                 fab.visibility = View.VISIBLE
+                //Fab clicked on the entry page
                 fab.setOnClickListener { view ->
                     Snackbar.make(view, "Entry Added", Snackbar.LENGTH_LONG).show()
 
                     val timestamp = System.currentTimeMillis() / 1000
-//                    val timestamp = Calendar.getInstance().getTime() / 1000
 
                     val distance: EditText = findViewById(R.id.input_distance)
                     val gas: EditText = findViewById(R.id.input_gas)
@@ -97,17 +101,21 @@ class MainActivity : AppCompatActivity() {
                         "FAB",
                         "Dist: " + distance.text.toString() + ", Gas: " + gas.text.toString()
                     )
+                    _id++
                     date_val = timestamp
                     dist_val = distance.text.toString().toDouble()
                     gas_val = gas.text.toString().toDouble()
+                    //Add entry to local mutableList
                     dataEntries.add(
                         arrayOf(
+                            _id,
                             date_val,
                             dist_val,
                             gas_val
                         )
                     )
-                    model.data.postValue(dataEntries)
+                    //postValue so recyclerview updates
+//                    model.data.postValue(dataEntries)
                     //DB
 
                     dbManager.insert(date_val, dist_val, gas_val)

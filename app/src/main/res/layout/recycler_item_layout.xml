@@ -5,6 +5,7 @@
 <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_layout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -43,7 +44,7 @@
             android:layout_height="wrap_content"
 
             android:layout_alignStart="@id/left_anchor"
-            android:textSize="18sp"
+            android:textSize="16sp"
             tools:text="Date Placeholder" />
 
         <TextView
@@ -53,7 +54,7 @@
 
             android:layout_alignStart="@id/center_anchor"
             android:layout_marginStart="0dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             tools:text="Dist P" />
 
         <TextView
@@ -63,7 +64,7 @@
 
             android:layout_alignStart="@id/right_anchor"
             android:layout_marginStart="-128dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             tools:text="Gas P" />
 
     </RelativeLayout>
