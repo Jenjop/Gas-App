@@ -17,8 +17,6 @@ import com.me.gasapp.R
 //import com.me.gasapp.SharedViewModel
 
 class HistoryFragment : Fragment() {
-
-    private lateinit var historyViewModel: HistoryViewModel
     private lateinit var recyclerView: RecyclerView
 //    private lateinit var model: SharedViewModel
     private lateinit var dataEntries: DataList
