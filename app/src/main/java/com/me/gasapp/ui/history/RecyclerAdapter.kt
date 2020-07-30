@@ -42,55 +42,43 @@ class RecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
 
         //Setting text
-        holder.view0.text = java.time.format.DateTimeFormatter.ofPattern("E, d MMM yyyy kk:mm:ss")
-            .withLocale(Locale.US).withZone(ZoneId.of("PST"))
-            .format(java.time.Instant.ofEpochSecond(dataEntries[position][1].toLong()))
+        holder.view0.text = epochConvert(dataEntries[position][1].toLong())
         holder.view1.text = "Dist: " + dataEntries[position][2].toString()
         holder.view2.text = "Gas: " + dataEntries[position][3].toString()
 
         holder.itemView.isSelected = selectedPosition == position
         holder.actions.visibility = View.GONE
-        //For multi selected item
-        if (multiSelect){
-            if(selectedSet.contains(position)){
-                holder.itemView.setBackgroundColor(Color.parseColor("#5462CEFF"))
-            }
-            else{
-                holder.itemView.setBackgroundColor(Color.TRANSPARENT)
-            }
-        }
-        //For single selected item
-        else {
-            if (selectedPosition == position) {
-                holder.itemView.setBackgroundColor(Color.parseColor("#5462CEFF"))
+
+        if (selectedPosition == position || selectedSet.contains(position)) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#5462CEFF"))
+
+            if (!multiSelect)
                 holder.actions.visibility = View.VISIBLE
-            } else {
-                holder.itemView.setBackgroundColor(Color.TRANSPARENT)
-            }
         }
+        else
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT)
+
 
         //Listener for long click -> Turns on multiselect on long click
+        //Lambda return boolean true -> Event consumed and normal onClickListener is not called
         holder.itemView.setOnLongClickListener{
             if (!multiSelect){
                 multiSelect = true
                 Log.d("RecyclerView", "MultiSelect Toggled On")
-                //Returns false from lambda so onClickListener is called and item is selected
                 return@setOnLongClickListener false
             }
-            // Returns true from lambda so event is consumed and normal onClickListener is not called
             return@setOnLongClickListener true
         }
 
-        //Listner for short click
+        //Listener for short click
         holder.itemView.setOnClickListener {
-            //Multi Select -> toggles selection, turns off multiselect when last item is unselected
+            //MultiSelect -> toggles selection, turns off MultiSelect when last item is unselected
             if (multiSelect){
-                //Toggle selection
                 if (selectedSet.contains(position)) {
                     Log.d("RecyclerView", "Position $position removed from MultiSelect")
                     selectedSet.remove(position)
-                    //If last item, disable multi select
-                    if (selectedSet.isEmpty()) {
+
+                    if (selectedSet.isEmpty()) { //If last item, disable MultiSelect
                         Log.d("RecyclerView", "MultiSelect Toggled Off")
                         multiSelect = false
                         selectedPosition = RecyclerView.NO_POSITION
@@ -106,11 +94,10 @@ class RecyclerAdapter(
             //Single Select
             else {
                 Log.d("RecyclerView", "Position $position selected")
+//                TransitionManager.beginDelayedTransition(holder.layout) //Animate the item_actions, not currently working, can animate entire recyclerview if passed in tho :/
                 selectedPosition = position
-                //                TransitionManager.beginDelayedTransition(holder.layout) //Animate the item_actions, not currently working, can animate entire recyclerview if passed in tho :/
                 notifyDataSetChanged()
             }
-
         }
 
         //Listener for deleting entry
@@ -126,7 +113,6 @@ class RecyclerAdapter(
 
             dbManager.close()
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -134,4 +120,8 @@ class RecyclerAdapter(
     }
 }
 
-
+fun epochConvert(epoch: Long): String {
+    return java.time.format.DateTimeFormatter.ofPattern("E, d MMM yyyy kk:mm:ss")
+        .withLocale(Locale.US).withZone(ZoneId.of("PST"))
+        .format(java.time.Instant.ofEpochSecond(epoch))
+}

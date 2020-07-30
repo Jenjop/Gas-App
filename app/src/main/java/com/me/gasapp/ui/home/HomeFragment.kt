@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.me.gasapp.R
 
+//Use for stats like avg mpg or smth
 class HomeFragment : Fragment() {
 
     override fun onCreateView(
