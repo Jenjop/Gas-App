@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.me.gasapp.DBManager
 import com.me.gasapp.DataList
 import com.me.gasapp.R
-//import com.me.gasapp.SharedViewModel
 import java.time.ZoneId
 import java.util.*
 
@@ -24,7 +23,6 @@ class RecyclerAdapter(
     RecyclerView.Adapter<RecyclerViewHolder>() {
 
     private var selectedPosition: Int = RecyclerView.NO_POSITION
-//    private lateinit var model: SharedViewModel
     private lateinit var dbManager: DBManager
     private var multiSelect: Boolean = false
     private var selectedSet: MutableSet<Int> = mutableSetOf()
@@ -42,10 +40,7 @@ class RecyclerAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-//        model =
-//            ViewModelProviders.of(activity).get(SharedViewModel::class.java)
 
-//        if (dataEntries.isNotEmpty()) {
         //Setting text
         holder.view0.text = java.time.format.DateTimeFormatter.ofPattern("E, d MMM yyyy kk:mm:ss")
             .withLocale(Locale.US).withZone(ZoneId.of("PST"))
@@ -71,7 +66,6 @@ class RecyclerAdapter(
                 holder.actions.visibility = View.VISIBLE
             } else {
                 holder.itemView.setBackgroundColor(Color.TRANSPARENT)
-//                holder.actions.visibility = View.GONE
             }
         }
 
@@ -119,7 +113,7 @@ class RecyclerAdapter(
 
         }
 
-        //Listner for deleting entry
+        //Listener for deleting entry
         holder.delete_button.setOnClickListener {
             //DB
             dbManager = DBManager(activity.applicationContext)
@@ -127,15 +121,11 @@ class RecyclerAdapter(
 
             dbManager.delete(dataEntries[position][0] as Long)
             dataEntries.removeAt(selectedPosition)
-//            model.data.postValue(dataEntries)
             notifyDataSetChanged()
             selectedPosition = RecyclerView.NO_POSITION
 
             dbManager.close()
         }
-
-//        }
-//        Log.d("Adapter", "Update Text")
 
     }
 

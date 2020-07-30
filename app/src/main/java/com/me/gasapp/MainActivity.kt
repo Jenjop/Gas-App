@@ -14,7 +14,6 @@ import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.ui.*
 
 //https://developer.android.com/guide/navigation/navigation-ui
@@ -29,7 +28,6 @@ class MainActivity : AppCompatActivity() {
 
     //Store entries [ [dist, gas], [dist, gas], ... ]
     var dataEntries: DataList = mutableListOf()
-//    private lateinit var model: SharedViewModel
 
     private lateinit var dbManager: DBManager
 
@@ -45,10 +43,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        //Get Shared View Model
-//        model =
-//            ViewModelProviders.of(this).get(SharedViewModel::class.java)
 
         //DB
         dbManager = DBManager(this)
@@ -68,7 +62,6 @@ class MainActivity : AppCompatActivity() {
             dataEntries.add(arrayOf(_id, date_val, dist_val, gas_val))
             cursor.moveToNext()
         }
-//        model.data.postValue(dataEntries)
 
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
@@ -114,8 +107,6 @@ class MainActivity : AppCompatActivity() {
                             gas_val
                         )
                     )
-                    //postValue so recyclerview updates
-//                    model.data.postValue(dataEntries)
                     //DB
 
                     dbManager.insert(date_val, dist_val, gas_val)
