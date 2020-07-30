@@ -1,15 +1,12 @@
 package com.me.gasapp.ui.history
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.graphics.Color
-import android.transition.TransitionManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.me.gasapp.DBManager
 import com.me.gasapp.DataList
@@ -29,6 +26,8 @@ class RecyclerAdapter(
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 //    private lateinit var model: SharedViewModel
     private lateinit var dbManager: DBManager
+    private var multiSelect: Boolean = false
+    private var selectedSet: MutableSet<Int> = mutableSetOf()
 
     override fun getItemViewType(position: Int): Int {
         return R.layout.recycler_item_layout
@@ -54,22 +53,69 @@ class RecyclerAdapter(
         holder.view1.text = "Dist: " + dataEntries[position][2].toString()
         holder.view2.text = "Gas: " + dataEntries[position][3].toString()
 
-        //For selected Item
         holder.itemView.isSelected = selectedPosition == position
-        if (selectedPosition == position) {
-            holder.itemView.setBackgroundColor(Color.parseColor("#5462CEFF"))
-            holder.actions.visibility = View.VISIBLE
-        } else {
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT)
-            holder.actions.visibility = View.GONE
+        holder.actions.visibility = View.GONE
+        //For multi selected item
+        if (multiSelect){
+            if(selectedSet.contains(position)){
+                holder.itemView.setBackgroundColor(Color.parseColor("#5462CEFF"))
+            }
+            else{
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT)
+            }
+        }
+        //For single selected item
+        else {
+            if (selectedPosition == position) {
+                holder.itemView.setBackgroundColor(Color.parseColor("#5462CEFF"))
+                holder.actions.visibility = View.VISIBLE
+            } else {
+                holder.itemView.setBackgroundColor(Color.TRANSPARENT)
+//                holder.actions.visibility = View.GONE
+            }
         }
 
-        //Listner for selecting entry
+        //Listener for long click -> Turns on multiselect on long click
+        holder.itemView.setOnLongClickListener{
+            if (!multiSelect){
+                multiSelect = true
+                Log.d("RecyclerView", "MultiSelect Toggled On")
+                //Returns false from lambda so onClickListener is called and item is selected
+                return@setOnLongClickListener false
+            }
+            // Returns true from lambda so event is consumed and normal onClickListener is not called
+            return@setOnLongClickListener true
+        }
+
+        //Listner for short click
         holder.itemView.setOnClickListener {
-            selectedPosition = position
-    //                TransitionManager.beginDelayedTransition(holder.layout) //Animate the item_actions, not currently working, can animate entire recyclerview if passed in tho :/
-            notifyDataSetChanged()
-            Log.d("RecyclerView", "Selected: $selectedPosition")
+            //Multi Select -> toggles selection, turns off multiselect when last item is unselected
+            if (multiSelect){
+                //Toggle selection
+                if (selectedSet.contains(position)) {
+                    Log.d("RecyclerView", "Position $position removed from MultiSelect")
+                    selectedSet.remove(position)
+                    //If last item, disable multi select
+                    if (selectedSet.isEmpty()) {
+                        Log.d("RecyclerView", "MultiSelect Toggled Off")
+                        multiSelect = false
+                        selectedPosition = RecyclerView.NO_POSITION
+                    }
+                    notifyDataSetChanged()
+                }
+                else {
+                    Log.d("RecyclerView", "Position $position added to MultiSelect")
+                    selectedSet.add(position)
+                    notifyDataSetChanged()
+                }
+            }
+            //Single Select
+            else {
+                Log.d("RecyclerView", "Position $position selected")
+                selectedPosition = position
+                //                TransitionManager.beginDelayedTransition(holder.layout) //Animate the item_actions, not currently working, can animate entire recyclerview if passed in tho :/
+                notifyDataSetChanged()
+            }
 
         }
 
@@ -83,7 +129,7 @@ class RecyclerAdapter(
             dataEntries.removeAt(selectedPosition)
 //            model.data.postValue(dataEntries)
             notifyDataSetChanged()
-            Log.d("RecyclerView", "Deleted: " + dataEntries[position][0].toString())
+            selectedPosition = RecyclerView.NO_POSITION
 
             dbManager.close()
         }
