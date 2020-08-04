@@ -15,4 +15,5 @@
 
     <string name="text_dist">Distance</string>
     <string name="text_gas">Gas</string>
+    <string name="text_date">Date</string>
 </resources>
