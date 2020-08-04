@@ -32,9 +32,9 @@ class EntryFragment : Fragment() {
         val dateButton: Button = root.findViewById(R.id.input_date)
         dateButton.setOnClickListener {view->
 //            today = MaterialDatePicker.todayInUtcMilliseconds()
-//            val builder = MaterialDatePicker.Builder.datePicker()
-//            val picker = builder.build()
-//            picker.show(childFragmentManager, picker.toString())
+            val builder = MaterialDatePicker.Builder.datePicker()
+            val picker = builder.build()
+            picker.show(childFragmentManager, picker.toString())
         }
 
         return root
