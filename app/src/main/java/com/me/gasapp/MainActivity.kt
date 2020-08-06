@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -14,7 +15,12 @@ import androidx.navigation.findNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.*
+import com.me.gasapp.ui.SharedViewModel
+import com.me.gasapp.ui.entry.EntryFragment
+import com.me.gasapp.ui.history.epochConvert
 
 //https://developer.android.com/guide/navigation/navigation-ui
 //Navigation drawer and stuff
@@ -26,13 +32,15 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
-    //Store entries [ [dist, gas], [dist, gas], ... ]
+    private lateinit var model: SharedViewModel
+
     var dataEntries: DataList = mutableListOf()
 
     private lateinit var dbManager: DBManager
 
     private var _id: Long = -1
-//    private var id: Int = -1
+
+    //    private var id: Int = -1
     private var date_val: Long = 0
     private var dist_val: Double = 0.0
     private var gas_val: Double = 0.0
@@ -44,6 +52,9 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        model =
+            ViewModelProvider(this).get(SharedViewModel::class.java)
+
         //DB
         dbManager = DBManager(this)
         dbManager.open();
@@ -54,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         //  1: date (epoch)
         //  2: Dist
         //  3: Gas
-        while (cursor != null && !cursor.isAfterLast){
+        while (cursor != null && !cursor.isAfterLast) {
             _id = cursor.getLong(0)
             date_val = cursor.getLong(1)
             dist_val = cursor.getDouble(2)
@@ -82,22 +93,30 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.nav_entry) {
                 fab.visibility = View.VISIBLE
+
+                model.dt.observe(this, Observer {
+                    date_val = it
+//                    Log.d("Main - SVM", "Change in dt: $it")
+                })
+                model.dist.observe(this, Observer {
+                    dist_val = it
+//                    Log.d("Main - SVM", "Change in dist: $it")
+                })
+                model.gas.observe(this, Observer {
+                    gas_val = it
+//                    Log.d("Main - SVM", "Change in gas: $it")
+                })
+
                 //Fab clicked on the entry page
                 fab.setOnClickListener { view ->
                     Snackbar.make(view, "Entry Added", Snackbar.LENGTH_LONG).show()
 
-                    val timestamp = System.currentTimeMillis() / 1000
+                    _id++
 
-                    val distance: EditText = findViewById(R.id.input_distance)
-                    val gas: EditText = findViewById(R.id.input_gas)
                     Log.d(
                         "FAB",
-                        "Dist: " + distance.text.toString() + ", Gas: " + gas.text.toString()
+                        "Date: " + date_val.toString() + ", Dist: " + dist_val.toString() + ", Gas: " + gas_val.toString()
                     )
-                    _id++
-                    date_val = timestamp
-                    dist_val = distance.text.toString().toDouble()
-                    gas_val = gas.text.toString().toDouble()
                     //Add entry to local mutableList
                     dataEntries.add(
                         arrayOf(
