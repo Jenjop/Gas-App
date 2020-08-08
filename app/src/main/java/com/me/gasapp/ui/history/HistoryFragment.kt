@@ -18,6 +18,7 @@ import kotlin.reflect.typeOf
 
 class HistoryFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
+//    private lateinit var navView: NavigationView
     private lateinit var recyclerView: RecyclerView
     private lateinit var dataEntries: DataList
     //  0: id
@@ -33,9 +34,11 @@ class HistoryFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_history, container, false)
         setHasOptionsMenu(true)
-        
 
         mainActivity = (activity as MainActivity)
+//        navView = mainActivity.findViewById(R.id.nav_view)
+//        navView.menu.findItem(R.id.nav_history).title = "History - " + Toggles.values()[sortOption].name
+
         dataEntries = mainActivity.dataEntries
         sortDataEntries()
 
@@ -58,6 +61,7 @@ class HistoryFragment : Fragment() {
         return when (item.itemId) {
             R.id.action_toggle -> {
                 toggleSort()
+//                navView.menu.findItem(R.id.nav_history).title = "History - " + Toggles.values()[sortOption].name
 //                Log.d("DataEntries", "Pre Sort $sortOption")
 //                dataEntries.forEach{
 //                    Log.d("DataEntries", "\t" + it[sortOption].toString())
