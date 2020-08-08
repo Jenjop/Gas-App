@@ -5,6 +5,7 @@ import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -27,7 +28,12 @@ import com.me.gasapp.ui.history.epochConvert
 
 typealias Data = Array<Number>
 typealias DataList = MutableList<Data>
-
+enum class Toggles{
+    ID,
+    DATE,
+    DIST,
+    GAS
+}
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -35,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var model: SharedViewModel
 
     var dataEntries: DataList = mutableListOf()
+//    var sortOption: Int = 1
 
     private lateinit var dbManager: DBManager
 
@@ -71,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             dist_val = cursor.getDouble(2)
             gas_val = cursor.getDouble(3)
             dataEntries.add(arrayOf(_id, date_val, dist_val, gas_val))
+            Log.d("DB Entries", "$_id, $date_val, $dist_val, $gas_val")
             cursor.moveToNext()
         }
 
@@ -143,15 +151,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        menuInflater.inflate(R.menu.main, menu)
+//        return true
+//    }
 
     //Called when the hamburger icon is clicked, not when selecting a fragment
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 //        val navController = findNavController(R.id.nav_host_fragment)
+//
 //        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
 //    }
 
@@ -159,6 +168,8 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
 
 
 }

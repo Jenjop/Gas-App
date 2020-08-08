@@ -68,7 +68,7 @@ class EntryFragment : Fragment() {
             picker.addOnPositiveButtonClickListener { selection ->
                 Log.d("DatePicker", selection.toString())
 //                dateButton.text = epochConvert(selection)
-                model.dt.postValue(selection)
+                model.dt.postValue(selection/1000)
 
             }
 
