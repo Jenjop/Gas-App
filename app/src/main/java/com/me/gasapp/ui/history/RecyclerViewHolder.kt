@@ -15,5 +15,6 @@ class RecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val view1: TextView = itemView.findViewById(R.id.item_text1)
     val view2: TextView = itemView.findViewById(R.id.item_text2)
     val actions: LinearLayout = itemView.findViewById(R.id.item_actions)
-    val delete_button: ImageButton = itemView.findViewById(R.id.delete_button)
+    val deleteButton: ImageButton = itemView.findViewById(R.id.delete_button)
+    val editButton: ImageButton = itemView.findViewById(R.id.edit_button)
 }

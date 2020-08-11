@@ -17,4 +17,7 @@
     <string name="text_dist">Distance</string>
     <string name="text_gas">Gas</string>
     <string name="text_date">Date</string>
+
+    <string name="edit_dialog_message">Message</string>
+    <string name="edit_dialog_title">Title</string>
 </resources>

@@ -1,13 +1,20 @@
 package com.me.gasapp.ui.history
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.me.gasapp.DBManager
 import com.me.gasapp.DataList
 import com.me.gasapp.R
@@ -101,7 +108,7 @@ class RecyclerAdapter(
         }
 
         //Listener for deleting entry
-        holder.delete_button.setOnClickListener {
+        holder.deleteButton.setOnClickListener {
             //DB
             dbManager = DBManager(activity.applicationContext)
             dbManager.open();
@@ -112,6 +119,77 @@ class RecyclerAdapter(
             selectedPosition = RecyclerView.NO_POSITION
 
             dbManager.close()
+        }
+
+        holder.editButton.setOnClickListener{
+            //DB
+//            dbManager = DBManager(activity.applicationContext)
+//            dbManager.open();
+
+
+
+            Log.d("editButton", "Creating Dialog")
+            activity?.let{
+                val builder = AlertDialog.Builder(it)
+                val inflater = activity.layoutInflater
+
+                val view = inflater.inflate(R.layout.dialog_edit, null)
+                builder.setView(view)
+                    .setPositiveButton("Yes",
+                    DialogInterface.OnClickListener{ dialog, id ->
+//                        Snackbar.make(view, "Entry Added", Snackbar.LENGTH_LONG).show()
+//
+//                        _id++
+//
+//                        Log.d(
+//                            "FAB",
+//                            "Date: " + date_val.toString() + ", Dist: " + dist_val.toString() + ", Gas: " + gas_val.toString()
+//                        )
+//                        //Add entry to local mutableList
+//                        dataEntries.add(
+//                            arrayOf(
+//                                _id,
+//                                date_val,
+//                                dist_val,
+//                                gas_val
+//                            )
+//                        )
+//                        //DB
+//
+//                        dbManager.insert(date_val, dist_val, gas_val)
+
+                    })
+                    .setNegativeButton("No",
+                    DialogInterface.OnClickListener{ dialog, id ->
+
+                    })
+
+                val distText: EditText = view.findViewById(R.id.edit_dialog_dist)
+                val gasText: EditText = view.findViewById(R.id.edit_dialog_gas)
+                val dateButton: Button = view.findViewById(R.id.edit_dialog_date)
+
+//                distText.addTextChangedListener{
+//                    model.dist.postValue(it.toString().toDouble())
+//                }
+//                gasText.addTextChangedListener{
+//                    model.gas.postValue(it.toString().toDouble())
+//                }
+
+                val dialog = builder.create()
+                dialog.show()
+
+
+//            val builder: AlertDialog.Builder? = activity.let {
+//                AlertDialog.Builder(it)
+//            }
+//            builder?.setMessage(R.string.edit_dialog_message)
+//            builder?.setTitle(R.string.edit_dialog_title)
+//            val dialog: AlertDialog? =     builder?.create()
+//            dialog?.show()
+//            val dialog: AlertDialog = AlertDialog.Builder(activity).setTitle(R.string.edit_dialog_title).setMessage(R.string.edit_dialog_message).create()
+//            dialog.show()
+            }
+
         }
     }
 
