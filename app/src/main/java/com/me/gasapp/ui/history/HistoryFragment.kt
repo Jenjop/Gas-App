@@ -1,26 +1,22 @@
 package com.me.gasapp.ui.history
 
 import android.os.Bundle
-//import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-//import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-//import com.google.android.material.navigation.NavigationView
 import com.me.gasapp.DataList
 import com.me.gasapp.MainActivity
 import com.me.gasapp.R
 import com.me.gasapp.Toggles
-//import kotlin.reflect.typeOf
 
 
 class HistoryFragment : Fragment() {
     private lateinit var mainActivity: MainActivity
-//    private lateinit var navView: NavigationView
     private lateinit var recyclerView: RecyclerView
     private lateinit var dataEntries: DataList
+
     //  0: id
     //  1: date (epoch)
     //  2: Dist
@@ -63,21 +59,11 @@ class HistoryFragment : Fragment() {
                 toggleSort()
 //                navView.menu.findItem(R.id.nav_history).title = "History - " + Toggles.values()[sortOption].name
 //                Log.d("DataEntries", "Pre Sort $sortOption")
-//                dataEntries.forEach{
-//                    Log.d("DataEntries", "\t" + it[sortOption].toString())
-//                }
                 sortDataEntries()
 //                Log.d("DataEntries", "Post Sort $sortOption")
-//                dataEntries.forEach{
-//                    Log.d("DataEntries", "\t" + it[sortOption].toString())
-//                }
                 recyclerView.adapter!!.notifyDataSetChanged()
                 true
             }
-//            R.id.help -> {
-//                showHelp()
-//                true
-//            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -86,9 +72,9 @@ class HistoryFragment : Fragment() {
         sortOption = (sortOption + 1).rem(Toggles.values().size)
     }
 
-    private fun sortDataEntries(){
+    private fun sortDataEntries() {
 
-        val sortedEntries: DataList = dataEntries.sortedBy{entry ->
+        val sortedEntries: DataList = dataEntries.sortedBy { entry ->
             entry[sortOption].toDouble()
         } as DataList
 
@@ -97,23 +83,4 @@ class HistoryFragment : Fragment() {
 
     }
 
-    /*
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
-        inflater.inflate(R.menu.your_menu_xml, menu)
-        super.onCreateOptionsMenu(menu!!, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment)
-
-        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
-    }
-
-     */
 }

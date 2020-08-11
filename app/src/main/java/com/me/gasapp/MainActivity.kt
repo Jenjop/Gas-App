@@ -22,12 +22,14 @@ import com.me.gasapp.ui.SharedViewModel
 
 typealias Data = Array<Number>
 typealias DataList = MutableList<Data>
-enum class Toggles{
+
+enum class Toggles {
     ID,
     DATE,
     DIST,
     GAS
 }
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -35,13 +37,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var model: SharedViewModel
 
     var dataEntries: DataList = mutableListOf()
-//    var sortOption: Int = 1
 
     private lateinit var dbManager: DBManager
 
     private var _id: Long = -1
 
-    //    private var id: Int = -1
     private var dateVal: Long = 0
     private var distVal: Double = 0.0
     private var gasVal: Double = 0.0
@@ -115,7 +115,6 @@ class MainActivity : AppCompatActivity() {
                 //Fab clicked on the entry page
                 fab.setOnClickListener { view ->
                     Snackbar.make(view, "Entry Added", Snackbar.LENGTH_LONG).show()
-
                     _id++
 
                     Log.d(
@@ -135,6 +134,7 @@ class MainActivity : AppCompatActivity() {
 
                     dbManager.insert(dateVal, distVal, gasVal)
 
+                    //Reset values if next entry is unedited
                     dateVal = 0
                     distVal = 0.0
                     gasVal = 0.0
@@ -168,8 +168,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-
-
 
 
 }

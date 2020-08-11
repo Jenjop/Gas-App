@@ -11,11 +11,10 @@ import com.me.gasapp.R
 class HomeFragment : Fragment() {
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
-        //        val textView: TextView = root.findViewById(R.id.text_home)
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 }

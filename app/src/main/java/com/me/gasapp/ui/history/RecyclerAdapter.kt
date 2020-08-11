@@ -43,7 +43,6 @@ class RecyclerAdapter(
 
     @SuppressLint("InflateParams")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerViewHolder {
-//        val view: View = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         val view: View =
             LayoutInflater.from(parent.context).inflate(R.layout.recycler_item_layout, null)
         return RecyclerViewHolder(view)
@@ -151,17 +150,18 @@ class RecyclerAdapter(
                     picker.show(activity.supportFragmentManager, picker.toString())
                     picker.addOnPositiveButtonClickListener { selection ->
                         Log.d("DatePicker", selection.toString())
-                        //                        model.dt.postValue(selection / 1000)
-                        dateVal = selection/1000
+                        dateVal = selection / 1000
                     }
                 }
 
 
                 builder.setView(view)
-                    .setPositiveButton("Yes"
+                    .setPositiveButton(
+                        "Yes"
                     ) { _, _ ->
                         Snackbar.make(view, "Entry Changed", Snackbar.LENGTH_LONG).show()
 
+                        //Set dist/gas val for retrieval
                         if (distText.text.isBlank())
                             distText.append(dataEntries[selectedPosition][2].toString()) //If dist not modified
                         if (gasText.text.isBlank())
@@ -170,13 +170,12 @@ class RecyclerAdapter(
                         gasVal = gasText.text.toString().toDouble()
 
                         _id = dataEntries[selectedPosition][0] as Long
-                        Log.d(
-                            "Edit New",
-                            "ID: $_id Date: $dateVal, Dist: $distVal, Gas: $gasVal"
-                        )
+//                        Log.d(
+//                            "Edit New",
+//                            "ID: $_id Date: $dateVal, Dist: $distVal, Gas: $gasVal"
+//                        )
 
                         dataEntries.removeAt(selectedPosition)
-
                         dataEntries.add(
                             arrayOf(
                                 _id,
@@ -196,15 +195,13 @@ class RecyclerAdapter(
 
                         dbManager.close()
                     }
-                    .setNegativeButton("No"
-                    ) {_, _ ->
-
-                    }
+                    .setNegativeButton(
+                        "No"
+                    ) { _, _ -> }
 
                 val dialog = builder.create()
                 dialog.show()
             }
-
         }
     }
 
