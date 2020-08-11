@@ -4,11 +4,7 @@ import android.annotation.SuppressLint
 import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -20,8 +16,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.*
 import com.me.gasapp.ui.SharedViewModel
-import com.me.gasapp.ui.entry.EntryFragment
-import com.me.gasapp.ui.history.epochConvert
 
 //https://developer.android.com/guide/navigation/navigation-ui
 //Navigation drawer and stuff
@@ -48,9 +42,9 @@ class MainActivity : AppCompatActivity() {
     private var _id: Long = -1
 
     //    private var id: Int = -1
-    private var date_val: Long = 0
-    private var dist_val: Double = 0.0
-    private var gas_val: Double = 0.0
+    private var dateVal: Long = 0
+    private var distVal: Double = 0.0
+    private var gasVal: Double = 0.0
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         //DB
         dbManager = DBManager(this)
-        dbManager.open();
+        dbManager.open()
         //Retrieve entries
         val cursor: Cursor? = dbManager.fetch()
         //cursor
@@ -74,13 +68,16 @@ class MainActivity : AppCompatActivity() {
         //  3: Gas
         while (cursor != null && !cursor.isAfterLast) {
             _id = cursor.getLong(0)
-            date_val = cursor.getLong(1)
-            dist_val = cursor.getDouble(2)
-            gas_val = cursor.getDouble(3)
-            dataEntries.add(arrayOf(_id, date_val, dist_val, gas_val))
-            Log.d("DB Entries", "$_id, $date_val, $dist_val, $gas_val")
+            dateVal = cursor.getLong(1)
+            distVal = cursor.getDouble(2)
+            gasVal = cursor.getDouble(3)
+            dataEntries.add(arrayOf(_id, dateVal, distVal, gasVal))
+            Log.d("DB Entries", "$_id, $dateVal, $distVal, $gasVal")
             cursor.moveToNext()
         }
+        dateVal = 0
+        distVal = 0.0
+        gasVal = 0.0
 
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
@@ -103,15 +100,15 @@ class MainActivity : AppCompatActivity() {
                 fab.visibility = View.VISIBLE
 
                 model.dt.observe(this, Observer {
-                    date_val = it
+                    dateVal = it
 //                    Log.d("Main - SVM", "Change in dt: $it")
                 })
                 model.dist.observe(this, Observer {
-                    dist_val = it
+                    distVal = it
 //                    Log.d("Main - SVM", "Change in dist: $it")
                 })
                 model.gas.observe(this, Observer {
-                    gas_val = it
+                    gasVal = it
 //                    Log.d("Main - SVM", "Change in gas: $it")
                 })
 
@@ -123,25 +120,28 @@ class MainActivity : AppCompatActivity() {
 
                     Log.d(
                         "FAB",
-                        "Date: " + date_val.toString() + ", Dist: " + dist_val.toString() + ", Gas: " + gas_val.toString()
+                        "Date: $dateVal, Dist: $distVal, Gas: $gasVal"
                     )
                     //Add entry to local mutableList
                     dataEntries.add(
                         arrayOf(
                             _id,
-                            date_val,
-                            dist_val,
-                            gas_val
+                            dateVal,
+                            distVal,
+                            gasVal
                         )
                     )
                     //DB
 
-                    dbManager.insert(date_val, dist_val, gas_val)
+                    dbManager.insert(dateVal, distVal, gasVal)
 
+                    dateVal = 0
+                    distVal = 0.0
+                    gasVal = 0.0
                 }
             } else {
                 fab.visibility = View.GONE
-                fab.setOnClickListener() { view ->
+                fab.setOnClickListener { view ->
                     Snackbar.make(view, "Changing View", Snackbar.LENGTH_LONG).show()
 
                     //TODO:
